@@ -34,4 +34,24 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  // update a user
+  async updateUser(req, res) {
+    try {
+      const update = await User.updateOne({ _id: req.params.userId });
+      res.status(200).json(update);
+      console.log(`Updated USER`);
+    } catch (error) {
+      res.status(500).json(err);
+    }
+  },
+  // delete a user
+  async deleteUser(req, res) {
+    try {
+      const result = await User.deleteOne({ _id: req.params.userId });
+      res.status(200).json(result);
+      console.log(`Deleted: ${result}`);
+    } catch (error) {
+      res.status(500).json({ message: 'something went wrong' });
+    }
+  }
 };
