@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const thoughtSchema = new Schema(
@@ -5,20 +6,31 @@ const thoughtSchema = new Schema(
     thoughtText: {
         type: String,
         required: true,
-        // must be between 1-280 characters
+        minLength: 8,
+        maxLength: 280,
     },
     createdAt: {
         type: Date,
-        // set default to the current timestamp
-        // use a getter method to format the timestamp on query
     },
     username: {
         type: String,
         required: true,
     },
-    reactions: {
-        // array of nested documents created with the reactionSchema
-    }
+    reactions: [{
+        reactionId: Schema.Types.ObjectId,
+        reactionBody: {
+            type: String,
+            required: true,
+            maxLength: 280,
+        },
+        username: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+        },
+    }],
   },
   {
     toJSON: {
@@ -37,6 +49,6 @@ thoughtSchema
 
 
 
-const Thought = model('post', thoughtSchema);
+const Thought = model('thoughts', thoughtSchema);
 
 module.exports = Thought;

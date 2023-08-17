@@ -6,7 +6,7 @@ const userSchema = new Schema(
         type: String,
         unique: true,
         required: true,
-        trimmed: true,
+        trim: true,
     },
       email: {
         type: String,
@@ -14,12 +14,18 @@ const userSchema = new Schema(
         unique: true,
         // look into mongoose validation
       },
-      thoughts: {
-        // array of id values referencing the thought model
-      },
-      friends: {
-        // array of id values referencing the user model
-      },
+      thoughts: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'thoughts',
+        }
+      ],
+      friends: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        }
+      ],
     },
     {
       toJSON: {
