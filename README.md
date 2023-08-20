@@ -4,7 +4,7 @@
 
 ![challenge18](https://github.com/ShannaRenee/Social-Media-API/assets/126972906/257be076-be64-4262-a13e-784e31e8e9ab)
 
-## WalkthroughVideo
+## Walkthrough Video
 https://drive.google.com/file/d/1s50FTTzMByN-eLF-5UyZjDITjMOsw4Sn/view
 
 ## Description
