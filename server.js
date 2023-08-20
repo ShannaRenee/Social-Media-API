@@ -19,7 +19,7 @@ client.connect()
     db = client.db(dbName);
 
     app.listen(port, () => {
-        console.log(`Example app listening at http://localhost:${port}`);
+        console.log(`app listening at http://localhost:${port}`);
     });
 })
 .catch((err) => {
