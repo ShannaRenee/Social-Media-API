@@ -31,9 +31,10 @@ module.exports = {
         const dbThoughtData = await Thought.create(req.body);
         const user = await User.findOneAndUpdate(
         { _id: req.body.userId },
-        { $addToSet: { thoughts: thought._id } },
+        { $addToSet: { thoughts: req.body._id } },
         { new: true }
         );
+        console.log(req.body)
 
         if (!user) {
             return res.status(404).json({
@@ -67,10 +68,9 @@ module.exports = {
     // create a reaction stored in a single user's reactions array field
     async createReaction(req, res) {
         try {
-            const reaction = await Thought.create(req.body)
             const thought = await Thought.findOneAndUpdate(
-                { _id: req.params.thoughts },
-                { $addToSet: { reactions: reaction._id } },
+                { _id: req.params.thoughtId },
+                { $addToSet: { reactions: req.body.reactionBody } },
                 { new: true }
             );
 
@@ -81,7 +81,7 @@ module.exports = {
               }
         
               res.json('Created the reaction');
-        } catch (error) {
+        } catch (err) {
             res.status(500).json(err);
         }
     },
@@ -100,7 +100,7 @@ module.exports = {
               }
         
               res.json('Deleted the reaction');
-        } catch (error) {
+        } catch (err) {
             res.status(500).json(err);
         }
     }

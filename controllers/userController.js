@@ -37,10 +37,11 @@ module.exports = {
   // update a user
   async updateUser(req, res) {
     try {
-      const update = await User.updateOne({ _id: req.params.userId });
-      res.status(200).json(update);
+      const update =  await req.body;
+      const updatedResult = await User.findOneAndUpdate({ _id: req.params.userId, update });
+      res.status(200).json(updatedResult);
       console.log(`Updated USER`);
-    } catch (error) {
+    } catch (err) {
       res.status(500).json(err);
     }
   },
@@ -49,7 +50,7 @@ module.exports = {
     try {
       const result = await User.deleteOne({ _id: req.params.userId });
       res.status(200).json(result);
-      console.log(`Deleted: ${result}`);
+      console.log(`Deleted: user`);
     } catch (error) {
       res.status(500).json({ message: 'something went wrong' });
     }
@@ -57,8 +58,11 @@ module.exports = {
   // add a new friend to a user's friend list
   async addFriend(req, res) {
     try {
-      const result = await User.findOneAndUpdate({ _id: req.params.userId, friends: req.params.friendId })
-      console.log('Updated user friend list')
+      const result = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        {  $addToSet: { friends: req.params.friendId } }
+        );
+      console.log(result)
     } catch (error) {
       res.status(500).json({ message: 'something went wrong' });
     }
@@ -66,7 +70,11 @@ module.exports = {
   // Delete a friend from a user's friend list
   async deleteFriend(req, res) {
     try {
-      const result = await User.findOneAndUpdate({ _id: req.params.userId, friends: req.params.friendId })
+      const result = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        {  $pull: { friends: req.params.friendId } }
+        );
+        console.log(result)
       console.log('Deleted friend from friend list')
     } catch (error) {
       res.status(500).json({ message: 'something went wrong' });

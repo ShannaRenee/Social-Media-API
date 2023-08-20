@@ -1,27 +1,19 @@
 const express = require('express');
+const db = require('./config/connection');
+const routes = require('./routes');
 
-const { MongoClient } = require('mongodb');
 
+const PORT = process.env.PORT || 3001;
 const app = express();
-const port = 3001;
 
-const connectionStringURI = `mongodb://127.0.0.1:27017`;
 
-const client = new MongoClient(connectionStringURI);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(routes);
 
-let db;
 
-const dbName = 'socialMediaDB';
-
-client.connect()
-.then(() => {
-    console.log('Connected successfully to MongoDB');
-    db = client.db(dbName);
-
-    app.listen(port, () => {
-        console.log(`app listening at http://localhost:${port}`);
+db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
     });
-})
-.catch((err) => {
-console.error('Mongo connection error ', err.message);
-});
+  });
