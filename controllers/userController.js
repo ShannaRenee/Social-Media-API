@@ -53,5 +53,23 @@ module.exports = {
     } catch (error) {
       res.status(500).json({ message: 'something went wrong' });
     }
+  },
+  // add a new friend to a user's friend list
+  async addFriend(req, res) {
+    try {
+      const result = await User.findOneAndUpdate({ _id: req.params.userId, friends: req.params.friendId })
+      console.log('Updated user friend list')
+    } catch (error) {
+      res.status(500).json({ message: 'something went wrong' });
+    }
+  },
+  // Delete a friend from a user's friend list
+  async deleteFriend(req, res) {
+    try {
+      const result = await User.findOneAndUpdate({ _id: req.params.userId, friends: req.params.friendId })
+      console.log('Deleted friend from friend list')
+    } catch (error) {
+      res.status(500).json({ message: 'something went wrong' });
+    }
   }
 };
